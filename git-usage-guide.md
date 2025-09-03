@@ -50,7 +50,7 @@ git config --list
 git init
 
 # 既存のリポジトリをクローン
-git clone https://github.com/username/repository.git
+git clone https://gitlab.com/username/repository.git
 ```
 
 ## 基本的なGitコマンド
@@ -127,7 +127,7 @@ git branch -m old-name new-name
 ### リモートリポジトリの管理
 ```bash
 # リモートリポジトリを追加
-git remote add origin https://github.com/username/repository.git
+git remote add origin https://gitlab.com/username/repository.git
 
 # リモートリポジトリの確認
 git remote -v
@@ -280,7 +280,7 @@ git commit -m "新機能を追加"
 # 5. リモートにプッシュ
 git push -u origin feature/new-feature
 
-# 6. プルリクエスト/マージリクエストを作成
+# 6. マージリクエストを作成
 
 # 7. マージ後、ローカルブランチを削除
 git checkout main
@@ -452,16 +452,47 @@ git push -u origin feature-branch
 # GitLab CIでよく使われるタグ
 git tag -a v1.0.0 -m "バージョン1.0.0リリース"
 git push origin v1.0.0
+
+# GitLab CI/CDパイプライン実行のトリガー
+git push origin main  # .gitlab-ci.ymlが存在する場合、自動実行
+
+# GitLab Pagesへのデプロイ（静的サイト）
+git push origin main  # pagesジョブが設定されている場合
+```
+
+### GitLab特有のリモートURL形式
+```bash
+# HTTPS形式（推奨）
+git remote add origin https://gitlab.com/username/repository.git
+
+# SSH形式（SSH鍵設定済みの場合）
+git remote add origin git@gitlab.com:username/repository.git
+
+# GitLab自体がセルフホストされている場合
+git remote add origin https://your-gitlab-instance.com/username/repository.git
 ```
 
 ### GitLab Flowの推奨ワークフロー
-1. **Issue作成**: 作業内容を明確にする
-2. **ブランチ作成**: Issueに基づいてfeatureブランチを作成
-3. **開発**: 小さなコミットを心がける
-4. **マージリクエスト**: レビューを依頼
-5. **レビューと修正**: フィードバックに対応
-6. **マージ**: mainブランチに統合
-7. **デプロイ**: 本番環境へのリリース
+1. **Issue作成**: 作業内容を明確にし、ラベルやマイルストーンを設定
+2. **ブランチ作成**: Issueに基づいてfeatureブランチを作成（Issue番号を含む）
+3. **開発**: 小さなコミットを心がけ、コミットメッセージでIssueを参照
+4. **マージリクエスト**: レビューを依頼し、適切なレビュアーを指定
+5. **CI/CDパイプライン**: 自動テストとビルドの実行を確認
+6. **レビューと修正**: フィードバックに対応し、必要に応じて追加コミット
+7. **マージ**: mainブランチに統合（Squash mergeやRebase mergeも選択可能）
+8. **自動デプロイ**: GitLab CI/CDによる本番環境への自動デプロイ
+
+### GitLabでのIssue管理
+```bash
+# コミットメッセージでIssueを参照
+git commit -m "feat: ユーザー認証機能を追加 (refs #123)"
+
+# コミットでIssueを自動クローズ
+git commit -m "fix: ログインエラーを修正 (closes #456)"
+
+# マージリクエストでIssueを参照
+git commit -m "feature: 新機能実装 (see merge request !789)"
+```
 
 ## セキュリティのベストプラクティス
 
