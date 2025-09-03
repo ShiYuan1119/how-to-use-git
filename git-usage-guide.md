@@ -50,7 +50,7 @@ git config --list
 git init
 
 # 既存のリポジトリをクローン
-git clone https://github.com/username/repository.git
+git clone https://gitlab.com/namespace/project.git
 ```
 
 ## 基本的なGitコマンド
@@ -127,7 +127,7 @@ git branch -m old-name new-name
 ### リモートリポジトリの管理
 ```bash
 # リモートリポジトリを追加
-git remote add origin https://github.com/username/repository.git
+git remote add origin https://gitlab.com/namespace/project.git
 
 # リモートリポジトリの確認
 git remote -v
